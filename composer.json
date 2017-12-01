@@ -1,0 +1,7 @@
+{
+    "name": "piggy/cofund",
+    "description": "The Joinpiggy shared libaries.",
+    "keywords": ["shared", "libaries"],
+    "license": "MIT",
+    "type": "project"
+}
