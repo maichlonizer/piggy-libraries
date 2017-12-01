@@ -1,7 +1,6 @@
 {
-    "name": "piggy/cofund",
-    "description": "The Joinpiggy shared libaries.",
-    "keywords": ["shared", "libaries"],
-    "license": "MIT",
-    "type": "project"
+    "name": "cofund/piggy-shared-libraries",
+    "description": "Piggy shared libraries",
+    "type": "libary",
+    "require": {}
 }
