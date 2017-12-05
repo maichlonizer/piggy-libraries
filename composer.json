@@ -1,5 +1,5 @@
 {
-    "name": "piggy/share-libraries",
+    "name": "piggy/shared",
     "description": "The Joinpiggy shared libaries.",
     "keywords": ["shared", "libaries"],
     "license": "MIT",
