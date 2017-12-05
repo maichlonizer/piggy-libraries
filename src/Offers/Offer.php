@@ -1,6 +1,6 @@
 <?php
 
-namespace Piggy\Offers;
+namespace Piggy\Shared\Offers;
 
 class Offer
 {
