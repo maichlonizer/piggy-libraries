@@ -1,0 +1,12 @@
+{
+    "name": "piggy/share-libraries",
+    "description": "The Joinpiggy shared libaries.",
+    "keywords": ["shared", "libaries"],
+    "license": "MIT",
+    "type": "project",
+    "autoload": {
+        "psr-0": {
+            "Piggy\\Shared": "src"
+        }
+    }
+}
