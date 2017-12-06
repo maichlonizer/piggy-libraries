@@ -4,12 +4,12 @@
     "keywords": ["shared", "libaries"],
     "license": "MIT",
     "type": "project",
+    "require": {
+        "gabordemooij/redbean": "dev-master"
+    },
     "autoload": {
         "psr-0": {
             "Piggy\\": "src"
         }
-    },
-    "require": {
-        "gabordemooij/redbean": "dev-master"
     }
 }
