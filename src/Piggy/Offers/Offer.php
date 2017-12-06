@@ -2,7 +2,7 @@
 
 namespace Piggy\Offers;
 
-use RedBeanPHP\R;
+use \RedBeanPHP\R as R;
 
 class Offer
 {
@@ -26,7 +26,7 @@ class Offer
 
         $sql = implode(" ", [$query, $where]);
 
-        $rows = R::getAll($query, $params);
+        $rows = R::getAll($sql, $params);
 
         return $rows;
     }
