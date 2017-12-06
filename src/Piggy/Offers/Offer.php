@@ -11,7 +11,7 @@ class Offer
 
     public function find(array $params = []) : array
     {
-        $query = sprintf("SELECT * FROM %s", $this->$table);
+        $query = sprintf("SELECT * FROM %s", $this->table);
         $params = [':network_id'=> $this->network_id ];
         $conditions = [];
         $where = '';
