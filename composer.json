@@ -8,5 +8,8 @@
         "psr-0": {
             "Piggy\\": "src"
         }
+    },
+    "require": {
+        "gabordemooij/redbean": "dev-master"
     }
 }
