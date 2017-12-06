@@ -9,10 +9,12 @@ class Offer
     // Explicitly define the table name for this model
     private $table = 'cofundoffer';
 
+    protected $network = 1;
+
     public function find(array $params = []) : array
     {
         $query = sprintf("SELECT * FROM %s", $this->table);
-        $params = [':network_id'=> $this->network_id ];
+        $params = [':network_id'=> $this->network];
         $conditions = [];
         $where = '';
 
