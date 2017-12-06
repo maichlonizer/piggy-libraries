@@ -3,7 +3,7 @@
 namespace Piggy\Database;
 
 use CoFund\Common\Exception\NoDatabaseConfigurationException;
-use R;
+use \RedBeanPHP\R as R;
 
 class Db
 {
