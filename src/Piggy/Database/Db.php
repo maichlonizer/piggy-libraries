@@ -2,59 +2,87 @@
 
 namespace Piggy\Database;
 
-use CoFund\Common\Exception\NoDatabaseConfigurationException;
 use \RedBeanPHP\R as R;
+
+use Piggy\Exceptions\NoDatabaseConfigurationException;
+use Piggy\Exceptions\DuplicateDatabaseKeyException;
 
 class Db
 {
-    const DB_SERVER_PROD    = 'prod';
-    const DB_SERVER_PROD_RR = 'prod-rr';
+    protected $default = null;
 
-    const DB_SERVER_LOGS    = 'logs';
-    const DB_SERVER_LOGS_RR = 'logs-rr';
+    protected $current = null;
 
-    const DB_SERVER_REPORTS    = 'reports';
-    const DB_SERVER_REPORTS_RR = 'reports-rr';
-
-    protected $default = self::DB_SERVER_PROD;
-
-    protected $databases = [];
+    protected $previous = null;
 
     protected $selected = null;
 
-    public function switchTo(string $db)
-    {
-        if (!in_array($db, array_keys($this->databases))) {
-            throw new NoDatabaseConfigurationException();
-        }
+    protected $databases = [];
 
-        R::selectDatabase($db);
+    public function __construct(array $databases = [], string $default = null)
+    {
+        $this->addDatabases($databases);
+
+        // if default db is specified
+        if ($default) {
+            $this->switchTo($default);        
+            $this->default = $default;
+        }
     }
 
     public function revert()
     {
-        R::selectDatabase($this->default);
+        $this->switchTo($this->previous);
     }
 
-    public function addDatabase(string $key, array $config = [])
+    public function switchToDefault()
     {
-        $this->selected = $key;
-
-        $this->databases[$key] = true;
-
-        R::addDatabase(
-            $key, 
-            sprintf("mysql:host=%s; dbname=%s", $config['host'], $config['db_name']),
-            $config['user'],
-            $config['password'],
-            true
-        );
+        $this->switchTo($this->default);
     }
 
-    protected function addDatabases(array $databases = [])
+    public function switchTo(string $db)
     {
-        foreach ($databases as $key => $config) {
-            self::addDatabases($key, $config);
+        try {
+            R::selectDatabase($db);
+
+            $this->previous = $this->current;
+            $this->current = $db;
+
+        } catch (\RedBeanPHP\RedException $e) {
+            throw new NoDatabaseConfigurationException(sprintf('Database %s is not configured properly.', $db));
         }
+    }
+
+    public function addDatabases(array $databases = [])
+    {
+        foreach ($databases as $db => $config) {
+            self::addDatabase($db, $config);
+        }
+    }
+
+    public function addDatabase(string $db, array $config = [])
+    {
+        try {
+            $this->databases[$db] = true;
+
+            R::addDatabase(
+                $db, 
+                sprintf("mysql:host=%s; dbname=%s", $config['host'], $config['db_name']),
+                $config['user'],
+                $config['password'],
+                true
+            );
+        } catch (\RedBeanPHP\RedException $e) {
+            throw new DuplicateDatabaseKeyException(sprintf('A database has already been specified for this key (%s).', $db));
+        }
+    }
+
+    public function __get(string $attribute)
+    {
+        if (property_exists($this, $attribute)) {
+            return $this->$attribute;
+        }
+
+        return null;
     }
 }
